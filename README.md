@@ -31,10 +31,16 @@ Use the `/ask` command with a required `message` and an optional `file` attachme
 /ask message:Draft a raid sign-up reminder. Ask me for any missing details.
 ```
 
-Only server members with role **`1558977000428011630`** can interact with the bot.
-The role check applies to commands, approval buttons, selects, and modals. DMs,
-bot accounts, and interactions without the role are rejected before reaching the
-agent. Administrators do not bypass this check.
+Only members of the **Daytraiders server (`1558969845574533132`)** with role
+**`1558977000428011630`** can interact with the bot. Both checks apply to
+commands, approval buttons, selects, and modals. Other servers, DMs, bot
+accounts, and interactions without the role are rejected before reaching the
+agent. Administrators do not bypass these checks.
+
+Discord in that server is the deployed agent's only user-input surface. The
+HTTP/TUI channel accepts input only during local development, not in production
+(including requests carrying Vercel OIDC credentials). Framework health and
+internal callback routes remain available; they are not general chat endpoints.
 
 The native Discord channel handles HTTP Interactions, not ordinary chat messages
 or @mentions. eve handles replies, attachments, and approval controls.
@@ -105,7 +111,8 @@ Deploy changes from the project root:
 
 eve builds and deploys the agent, then pulls the Vercel development environment
 into `.env.local`. After changing Discord authorization, test `/ask` with users
-both with and without the required role. A successful build alone does not
+both with and without the required role, and confirm interactions from other
+servers are rejected. A successful build alone does not
 verify an end-to-end Discord reply.
 
 ## Resources
